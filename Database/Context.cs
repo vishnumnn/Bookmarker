@@ -1,13 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using Interfaces;
 
-namespace Database
+namespace Interfaces
 {
     public class Context : DbContext
     {
-        public DbSet<FolderEntity> Blogs { get; set; }
+        public Context(DbContextOptions<Context> options) : base(options)
+        {
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseNpgsql("Host=my_host;Database=my_db;Username=my_user;Password=my_pw");
+        }
+        public DbSet<Folder> Folders { get; set; }
     }
 }
