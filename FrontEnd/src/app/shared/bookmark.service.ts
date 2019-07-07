@@ -8,7 +8,7 @@ export class BookmarkService {
   readonly getFolderURL : string = "http://localhost:44384/Home/Folders";
   constructor(private http: HttpClient) { }
   
-  GetAllFolders(){
+  public GetAllFolders(){
     return this.http.get(this.getFolderURL);
   }
 }

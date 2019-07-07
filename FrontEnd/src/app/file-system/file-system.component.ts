@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { BookmarkService } from "../shared/bookmark.service";
 import { Folder } from "../shared/folder.model";
-
+import 'rxjs/'
 @Component({
   selector: "app-file-system",
   templateUrl: "./file-system.component.html",
@@ -11,6 +11,20 @@ export class FileSystemComponent implements OnInit {
   folders: Folder[];
 
   constructor(private service: BookmarkService) {}
-  
-  ngOnInit() {}
+
+  ngOnInit() {
+    this.SubscribeToFolders();
+  }
+
+  /**
+   * SubscribeToFolders
+   */
+  public SubscribeToFolders() {
+    this.service.GetAllFolders().subscribe(
+      (res : any[]) => {
+        console.log(res);
+        this.folders = res;
+      }
+    )
+  }
 }
