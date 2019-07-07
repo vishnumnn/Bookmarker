@@ -1,5 +1,5 @@
 export class Folder {
     Id : number;
-    label : string;
+    Label : string;
     Description : string;
 }

@@ -8,7 +8,7 @@ import 'rxjs/'
   styleUrls: ["./file-system.component.css"]
 })
 export class FileSystemComponent implements OnInit {
-  folders: Folder[];
+  folders: Folder[] = [];
 
   constructor(private service: BookmarkService) {}
 
@@ -21,7 +21,7 @@ export class FileSystemComponent implements OnInit {
    */
   public SubscribeToFolders() {
     this.service.GetAllFolders().subscribe(
-      (res : any[]) => {
+      (res : Folder[]) => {
         console.log(res);
         this.folders = res;
       }

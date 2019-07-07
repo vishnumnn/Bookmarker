@@ -2,7 +2,8 @@
     <h1 class="display-4 text-center">
         Your Bookmarks
     </h1>
-    <ng-template *ngFor="let folder of Folders">
-        <app-folder [FolderData] = "folderData"></app-folder>
-    </ng-template>
+    <hr>
+    <div *ngFor="let folder of folders">
+        <app-folder [FolderData] = "folder"></app-folder>
+    </div>
 </div>

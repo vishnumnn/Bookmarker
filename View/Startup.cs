@@ -36,10 +36,7 @@ namespace View
                     if (resolver != null)
                         (resolver as DefaultContractResolver).NamingStrategy = null;
                 });
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
-            });
+            services.AddCors();
             services.AddDbContextPool<Context>(options => options.UseSqlServer(Configuration.GetConnectionString("EncyclopediaDBConnection")));
             services.AddScoped<FolderServices>();
         }
@@ -57,7 +54,8 @@ namespace View
             }
 
             app.UseHttpsRedirection();
-            app.UseCors();
+            app.UseCors(options => options.WithOrigins("http://localhost:4200")
+            .AllowAnyMethod().AllowAnyHeader());
             app.UseMvc();
         }
     }
