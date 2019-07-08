@@ -28,10 +28,26 @@ namespace View.Controllers
                 return Ok(res);
             }catch (Exception ex)
             {
-                return StatusCode(500, $"Server Error \n {ex.StackTrace}");
+                return StatusCode(500, $"Server Error \n{ex.StackTrace}");
             }
 
 
+        }
+
+        [Route("Folders")]
+        [HttpPost]
+        public async Task<IActionResult> PostFolder(Folder folder)
+        {
+            try
+            {
+                int res = await serv.SubmitFolder(folder);
+                return Ok(res);
+            }
+            catch (Exception E)
+            {
+                return StatusCode(500, $"Post service error \n{E.StackTrace}");
+
+            }
         }
     }
 }

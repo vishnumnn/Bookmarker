@@ -1,9 +1,11 @@
 <div class="jumbotron">
-    <h1 class="display-4 text-center">
-        Your Bookmarks
-    </h1>
-    <hr>
-    <div *ngFor="let folder of folders">
-        <app-folder [FolderData] = "folder"></app-folder>
+  <h1 class="display-4 text-center">
+    Your Bookmarks
+  </h1>
+  <hr />
+  <div class="row">
+    <div class="col-4" *ngFor="let folder of folders">
+      <app-folder [FolderData]="folder"></app-folder>
     </div>
+  </div>
 </div>

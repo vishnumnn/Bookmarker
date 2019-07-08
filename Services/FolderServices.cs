@@ -19,5 +19,11 @@ namespace Services
         {
             return await cont.Folders.ToListAsync();
         }
+
+        public async Task<int> SubmitFolder(Folder folder)
+        {
+            await cont.AddAsync(folder);
+            return await cont.SaveChangesAsync();
+        }
     }
 }
