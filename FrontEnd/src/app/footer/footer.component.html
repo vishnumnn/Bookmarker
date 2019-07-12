@@ -1,0 +1,60 @@
+<footer id="sticky-footer" class="py-3 bg-secondary text-white">
+  <!-- Button trigger modal -->
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-toggle="modal"
+    data-target="#exampleModalCenter"
+  >
+    Launch demo modal
+  </button>
+</footer>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModalCenter"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+
+          (click) = "FolderFormGroup.reset()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup] = "FolderFormGroup" >
+          <div>
+              <input type="text" formControlName = "FolderName" placeholder="Folder Name" required minlength="1" maxlength="40" (onchange) = "console.log(FolderName)">
+              <p *ngIf = "FolderName.errors && (FolderName.touched || FolderName.dirty )" style="color: red">
+                Folder name must be between 1 and 40 characters in length
+              </p>
+          </div>
+       
+          <div>
+              <textarea #area formControlName = "FolderDescription" placeholder="Folder Description" maxlength="200" style="height:150px; width: 450px"></textarea>
+          </div>
+      
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click) = "FolderFormGroup.reset(); resetArea(area)">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" disabled="!FolderFormGroup.valid" >Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
