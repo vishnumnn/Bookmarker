@@ -29,7 +29,7 @@
           data-dismiss="modal"
           aria-label="Close"
 
-          (click) = "FolderFormGroup.reset()"
+          (click) = "FolderFormGroup.reset(); resetArea(area)"
         >
           <span aria-hidden="true">&times;</span>
         </button>
@@ -46,14 +46,14 @@
           <div>
               <textarea #area formControlName = "FolderDescription" placeholder="Folder Description" maxlength="200" style="height:150px; width: 450px"></textarea>
           </div>
-      
         </form>
+        <p *ngIf = "RequestResponse != undefined">{{RequestResponse}}</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click) = "FolderFormGroup.reset(); resetArea(area)">
+        <button #CancelButton type="button" class="btn btn-secondary" data-dismiss="modal" (click) = "FolderFormGroup.reset(); resetArea(area)">
           Cancel
         </button>
-        <button type="submit" class="btn btn-primary" disabled="!FolderFormGroup.valid" >Save changes</button>
+        <button type="submit" class="btn btn-primary" disabled="!FolderFormGroup.valid" (click) = "OnSubmit()">Save changes</button>
       </div>
     </div>
   </div>
