@@ -53,7 +53,7 @@
         <button #CancelButton type="button" class="btn btn-secondary" data-dismiss="modal" (click) = "FolderFormGroup.reset(); resetArea(area)">
           Cancel
         </button>
-        <button type="submit" class="btn btn-primary" disabled="!FolderFormGroup.valid" (click) = "OnSubmit()">Save changes</button>
+        <button type="submit" class="btn btn-primary" [disabled]="FolderFormGroup.invalid" (click) = "OnSubmit()">Save changes</button>
       </div>
     </div>
   </div>

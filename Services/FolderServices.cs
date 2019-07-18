@@ -15,15 +15,16 @@ namespace Services
         {
             cont = context;
         }
-        public async Task<List<Folder>> GetAllFolders()
+        public async Task<List<FolderEntity>> GetAllFolders()
         {
-            return await cont.Folders.ToListAsync();
+            return await cont.Folders.Include(folder => folder.Bookmarks).ToListAsync();
         }
 
-        public async Task<int> SubmitFolder(Folder folder)
-        {   
+        public async Task<FolderEntity> SubmitFolder(FolderEntity folder)
+        {
             await cont.AddAsync(folder);
-            return await cont.SaveChangesAsync();
+            await cont.SaveChangesAsync();
+            return folder;
         }
     }
 }

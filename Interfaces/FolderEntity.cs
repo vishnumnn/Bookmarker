@@ -7,7 +7,7 @@ using Interfaces;
 
 namespace Interfaces
 {
-    public partial class Folder : IFolder
+    public class FolderEntity : IFolder
     {
         [Key]
         public int Id { get; set; }
@@ -16,5 +16,6 @@ namespace Interfaces
         public string Label { get; set; }
         [Column(TypeName = "nvarchar(200)")]
         public string Description { get; set; }
+        public ICollection<Bookmark> Bookmarks { get; set; }
     }
 }

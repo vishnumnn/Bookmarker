@@ -1,5 +1,5 @@
 <div class="container.fluid pb-4" id = 'app-comp-div'>
-  <app-file-system></app-file-system>
-  <app-footer></app-footer>
+  <app-file-system [inputFromFooter] = "folder"></app-file-system>
+  <app-footer (postEvent)="folder=$event"></app-footer>
 </div>
 

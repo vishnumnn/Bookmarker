@@ -1,3 +1,6 @@
 <div>
-  <button type="button" class="btn btn-dark btn-lg btn-block text-truncate">{{FolderData.Label}}</button>
+  <button type="button" class="btn btn-dark btn-lg btn-block text-truncate" (click) = "TriggerBookmarks()">{{FolderData.Label}}</button>
+<!--   <div class="" *ngIf = "IsBookmarkOpen">
+    <button *ngFor = "let b of FolderData.Bookmarks"><a target="_blank" href = {{b.URL}}>{{b.URL}}</a></button>
+  </div> -->
 </div>

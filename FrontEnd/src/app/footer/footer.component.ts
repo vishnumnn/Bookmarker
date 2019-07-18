@@ -45,9 +45,6 @@ export class FooterComponent implements OnInit {
     return this.FolderFormGroup.get("FolderDescription");
   }
   ngOnInit() {
-    console.log(this.FolderFormGroup);
-    console.log(this.FolderName);
-    console.log(this.FolderName.errors);
   }
   /**
    * resetArea.
@@ -63,9 +60,11 @@ export class FooterComponent implements OnInit {
   public OnSubmit() {
     this.RequestResponse = "...Processing Your Request";
     let prom = new Promise(async (resolve, reject) => {
-    let folder : Folder;
-    folder.Label = this.FolderName.value;
-    folder.Description = this.FolderDescription.value;
+    let folder = {
+      Id : undefined,
+      Label : this.FolderName.value,
+      Description : this.FolderDescription.value
+    }
     this.RequestResponse = "...Contacting Database"
     let obs = await this.service.SubmitNewFolder(folder);
     resolve(obs);
@@ -74,6 +73,7 @@ export class FooterComponent implements OnInit {
     prom.then(
       (res : Observable<Folder>) => {
         res.subscribe((folder : Folder) => {
+          this.RequestResponse = undefined;
           this.postEvent.emit(folder);
           this.close.nativeElement.click();
         })

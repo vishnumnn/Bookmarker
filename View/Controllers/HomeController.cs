@@ -24,7 +24,7 @@ namespace View.Controllers
         {
             try
             {
-               List<Folder> res = await serv.GetAllFolders();
+               List<FolderEntity> res = await serv.GetAllFolders();
                 return Ok(res);
             }catch (Exception ex)
             {
@@ -36,11 +36,11 @@ namespace View.Controllers
 
         [Route("Folders")]
         [HttpPost]
-        public async Task<IActionResult> PostFolder(Folder folder)
+        public async Task<IActionResult> PostFolder(FolderEntity folder)
         {
             try
             {
-                int res = await serv.SubmitFolder(folder);
+                FolderEntity res = await serv.SubmitFolder(folder);
                 return Ok(res);
             }
             catch (Exception E)

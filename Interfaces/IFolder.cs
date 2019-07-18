@@ -9,6 +9,5 @@ namespace Interfaces
         int Id { get; set; }
         string Label { get; set; }
         string Description { get; set; }
-
     }
 }

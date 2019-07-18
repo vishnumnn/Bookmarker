@@ -3,14 +3,16 @@ using Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Database.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20190715070934_for2")]
+    partial class for2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,7 +59,7 @@ namespace Database.Migrations
             modelBuilder.Entity("Interfaces.Bookmark", b =>
                 {
                     b.HasOne("Interfaces.FolderEntity", "Folder")
-                        .WithMany("Bookmarks")
+                        .WithMany("bookmarks")
                         .HasForeignKey("FolderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

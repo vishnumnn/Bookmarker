@@ -8,8 +8,9 @@ namespace Interfaces
     {
         public Context(DbContextOptions<Context> options) : base(options)
         {
-
         }
-        public DbSet<Folder> Folders { get; set; }
+        public DbSet<FolderEntity> Folders { get; set; }
+
+        public DbSet<Bookmark> Bookmarks { get; set; }
     }
 }
