@@ -14,7 +14,7 @@ namespace Interfaces
         [Required]
         [Column(TypeName = "nvarchar(40)")]
         public string Label { get; set; }
-        [Column(TypeName = "nvarchar(200)")]
+        [Column(TypeName = "nvarchar(500)")]
         public string Description { get; set; }
         public ICollection<Bookmark> Bookmarks { get; set; }
     }

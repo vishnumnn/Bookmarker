@@ -45,6 +45,8 @@ export class FooterComponent implements OnInit {
     return this.FolderFormGroup.get("FolderDescription");
   }
   ngOnInit() {
+    this.RequestResponse = undefined;
+
   }
   /**
    * resetArea.
@@ -67,6 +69,7 @@ export class FooterComponent implements OnInit {
     }
     this.RequestResponse = "...Contacting Database"
     let obs = await this.service.SubmitNewFolder(folder);
+    this.RequestResponse = undefined;
     resolve(obs);
     });
 

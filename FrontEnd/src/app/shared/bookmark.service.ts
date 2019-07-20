@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {map} from 'rxjs/operators'
 import { Folder } from './folder.model';
+import {Bookmark} from './bookmark.model'
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,6 +10,8 @@ import { Observable } from 'rxjs';
 })
 export class BookmarkService {
   readonly URL : string = "https://localhost:44384/Home/Folders";
+  readonly URL2 : string = "https://localhost:44384/Home/Bookmarks";
+
   constructor(private http: HttpClient) { }
   
   public GetAllFolders(){
@@ -24,5 +27,12 @@ export class BookmarkService {
    */
   public SubmitNewFolder(folder : Folder) {
     return this.http.post<Folder>(this.URL, folder); 
+  }
+
+  /**
+   * SubmitNewBookmark
+   */
+  public SubmitNewBookmark(Bookmark : Bookmark){
+    return this.http.post<Bookmark>(this.URL2, Bookmark);
   }
 }

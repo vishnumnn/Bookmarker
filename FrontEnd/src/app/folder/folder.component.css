@@ -1,3 +1,12 @@
-:host{
-    
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+a{
+    color : black;
+    font-weight: bolder;
 }

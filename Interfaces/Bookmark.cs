@@ -12,6 +12,8 @@ namespace Interfaces
         public int Id { get; set; }
         [Required]
         public string URL { get; set; }
+        [Column(TypeName = "varchar(200)")]
+        public string Description { get; set; }
         public int FolderId { get; set; }
         public FolderEntity Folder { get; set; }
     }

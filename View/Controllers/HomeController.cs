@@ -49,5 +49,21 @@ namespace View.Controllers
 
             }
         }
+
+        [Route("Bookmarks")]
+        [HttpPost]
+        public async Task<IActionResult> PostBookmark(Bookmark bookmark)
+        {
+            try
+            {
+                Bookmark res = await serv.SubmitBookmark(bookmark);
+                return Ok(res);
+            }
+            catch (Exception E)
+            {
+                return StatusCode(500, $"Exception occured while processing post bookmark request\n {E.StackTrace}");
+
+            }
+        }
     }
 }

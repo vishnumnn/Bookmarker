@@ -20,6 +20,12 @@ namespace Services
             return await cont.Folders.Include(folder => folder.Bookmarks).ToListAsync();
         }
 
+        public async Task<Bookmark> SubmitBookmark(Bookmark bookmark)
+        {
+            await cont.AddAsync(bookmark);
+            await cont.SaveChangesAsync();
+            return bookmark;
+        }
         public async Task<FolderEntity> SubmitFolder(FolderEntity folder)
         {
             await cont.AddAsync(folder);
