@@ -4,6 +4,8 @@
     <div class="row pt-1 pb-1 justify-content-center">
         <p class="col-12">{{FolderData.Description}}</p>
         <button type="button" class="btn btn-success btn-sm " data-toggle="modal" data-target="#BookmarkModal">Add Bookmark</button>
+        <button type="button" class="btn btn-success btn-sm " data-toggle="modal" data-target="#EditModal">Edit Folder</button>
+        <button type="button" class="btn btn-success btn-sm " data-toggle="modal" data-target="#DeleteModal">Delete Folder</button>
     </div>
     <hr>
     <div class="row pt-1" *ngFor = "let b of FolderData.Bookmarks">
@@ -11,7 +13,7 @@
         <button class="btn btn-outline-warning btn-sm btn-block text-truncate col-11" style = "padding-left: 10%"(click) = TriggerDescription(b)>
           <a target="_blank" href = {{b.URL}}>{{b.URL}}</a>
         </button>
-        <button type="button" class="col-1"data-toggle="modal" data-target="#BookmarkModal"><i class="far fa-trash-alt"></i></button>
+        <button type="button" class="col-1 btn-danger" (click) = "Delete(b)"><i class="far fa-trash-alt"></i></button>
       </ng-container>
       <div class="col-12" *ngIf = "BookmarkHash[b.Id]">
         <p>{{b.Description}}</p>
@@ -49,6 +51,55 @@
         <form [formGroup] = "BookmarkFormGroup" >
           <div>
               <input type="text" formControlName = "bookURL" placeholder="Bookmark URL" required (onchange)="console.log(bookURL)">
+              <p *ngIf = "bookURL.errors && (bookURL.touched || bookURL.dirty )" style="color: red">
+                Bookmark URL is required
+              </p>
+          </div>
+       
+          <div>
+              <textarea #area formControlName = "Description" placeholder="Bookmark Description" maxlength="200" style="height:150px; width: 450px"></textarea>
+          </div>
+        </form>
+        <p *ngIf = "RequestResponse != undefined">{{RequestResponse}}</p>
+      </div>
+      <div class="modal-footer">
+        <button #CancelButton type="button" class="btn btn-secondary" data-dismiss="modal" (click) = "BookmarkFormGroup.reset(); resetArea(area)">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="BookmarkFormGroup.invalid" (click) = "OnSubmit()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="EditModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="EditModalTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add A Bookmark</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+
+          (click) = "BookmarkFormGroup.reset(); resetArea(area)"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup] = "BookmarkFormGroup" >
+          <div>
+              <input type="text" formControlName = "bookURL" placeholder="Bookmark URL" required>
               <p *ngIf = "bookURL.errors && (bookURL.touched || bookURL.dirty )" style="color: red">
                 Bookmark URL is required
               </p>

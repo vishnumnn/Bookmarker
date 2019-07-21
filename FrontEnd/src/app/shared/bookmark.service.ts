@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {map} from 'rxjs/operators'
 import { Folder } from './folder.model';
 import {Bookmark} from './bookmark.model'
@@ -9,17 +9,22 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BookmarkService {
+  headers : HttpHeaders;
   readonly URL : string = "https://localhost:44384/Home/Folders";
   readonly URL2 : string = "https://localhost:44384/Home/Bookmarks";
+  readonly URL3 : string = "https://localhost:44384/Home/Delete";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
+  }
   
   public GetAllFolders(){
-    return this.http.get<Folder[]>(this.URL).pipe(
+    var res =  this.http.get<Folder[]>(this.URL).pipe(
       map(result => result.sort((e,f) => {
         return e.Label.localeCompare(f.Label);
       }))
     );
+    return res;
   }
 
   /**
@@ -34,5 +39,13 @@ export class BookmarkService {
    */
   public SubmitNewBookmark(Bookmark : Bookmark){
     return this.http.post<Bookmark>(this.URL2, Bookmark);
+  }
+
+  /**
+   * DeleteBookmark
+   */
+  public DeleteBookmark(Bookmark : Bookmark) {
+    console.log(`${this.URL3}/${Bookmark.Id}`);
+    return this.http.delete(`${this.URL3}/${Bookmark.Id}`, {headers : this.headers});
   }
 }

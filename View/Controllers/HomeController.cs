@@ -65,5 +65,19 @@ namespace View.Controllers
 
             }
         }
+
+        [HttpDelete("Delete/{id:int}")]
+        public async Task<IActionResult> DeleteBookmark(int id)
+        {
+            try
+            {
+                Bookmark res = await serv.DeleteBookmark(id);
+                return Ok(res);
+            }
+            catch(Exception E)
+            {
+                return StatusCode(500, $"Delete method failed for bookmark\n {E.StackTrace}");
+            }
+        }
     }
 }

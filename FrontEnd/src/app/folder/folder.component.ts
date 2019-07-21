@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit,OnChanges, Input, ViewChild, ElementRef, ApplicationRef } from "@angular/core";
 import { BookmarkService } from "../shared/bookmark.service";
 import { Folder } from '../shared/folder.model';
 import { Bookmark } from '../shared/bookmark.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -15,7 +15,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     '[class.col]' : 'IsBookmarkOpen'
   }
 })
-export class FolderComponent implements OnInit {
+export class FolderComponent implements OnInit, OnChanges {
   /**
   * FormGroup
   */
@@ -26,7 +26,7 @@ export class FolderComponent implements OnInit {
   ],
   Description: ["", [Validators.maxLength(200)]]
   });
-  constructor(private form : FormBuilder, private serv : BookmarkService) {
+  constructor(private form : FormBuilder, private serv : BookmarkService, private ref : ApplicationRef) {
   }
   
   /**
@@ -42,6 +42,10 @@ export class FolderComponent implements OnInit {
   get Description() {return this.BookmarkFormGroup.get('Description')};
 
   ngOnInit() {
+
+  }
+
+  ngOnChanges(){
     this.RequestResponse = undefined;
     if(this.FolderData.Bookmarks != undefined){
       this.FolderData.Bookmarks.forEach(b => {
@@ -49,8 +53,8 @@ export class FolderComponent implements OnInit {
           this.BookmarkHash[b.Id] = false;
         }
       });
+      this.FolderData.Bookmarks.sort((a,b) => {return a.URL.localeCompare(b.URL)});
     }
-    console.log(this.BookmarkHash);
   }
 
   /**
@@ -69,20 +73,16 @@ export class FolderComponent implements OnInit {
         Description : this.Description.value,
         FolderId : this.FolderData.Id
       }
-      this.RequestResponse = "Contacting database and processing request for bookmark addition"
       let res = await this.serv.SubmitNewBookmark(book);
       resolve(res);
     });
     prom.then(
       (res : Observable<Bookmark>) => {
-        this.RequestResponse = "Request was sent successfully, processing response.";
         res.subscribe((Bookmark : Bookmark) => {
           console.log(Bookmark);
           this.FolderData.Bookmarks.push(Bookmark);
           this.FolderData.Bookmarks = this.FolderData.Bookmarks.sort((a,b) => {return a.URL.localeCompare(b.URL)});
-          this.RequestResponse = undefined;
           this.cancel.nativeElement.click();
-          this.ngOnInit();
         });
       }
     );
@@ -96,6 +96,35 @@ export class FolderComponent implements OnInit {
       });
   }
   
+  Delete(bookmark : Bookmark){
+    let prom = new Promise(async (resolve) => {
+      let book = {
+        Id : bookmark.Id,
+        URL : bookmark.URL,
+        Description : bookmark.Description,
+        FolderId : bookmark.FolderId
+      }
+      let x = this.serv.DeleteBookmark(book);
+      resolve(x);
+    });
+
+    prom.then(
+      (res : Observable<Bookmark>) => {
+        res.subscribe(res => {
+          this.FolderData.Bookmarks = this.FolderData.Bookmarks.filter(e => {
+            return e.Id != res.Id;
+          });
+          this.ref.tick();
+        });
+      });
+
+    prom.catch(
+      err => {err.subscribe((err : HttpErrorResponse) => {
+        console.log(`Errored out! ${err.message}`);
+      });
+    });
+  }
+
   TriggerBookmarks(){
     this.IsBookmarkOpen = !this.IsBookmarkOpen;
   }

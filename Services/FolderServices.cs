@@ -32,5 +32,13 @@ namespace Services
             await cont.SaveChangesAsync();
             return folder;
         }
+        
+        public async Task<Bookmark> DeleteBookmark(int id)
+        {
+            Bookmark book = cont.Bookmarks.Single(a => a.Id == id);
+            cont.Remove(book);
+            await cont.SaveChangesAsync();
+            return book;
+        }
     }
 }
