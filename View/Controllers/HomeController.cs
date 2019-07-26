@@ -79,5 +79,20 @@ namespace View.Controllers
                 return StatusCode(500, $"Delete method failed for bookmark\n {E.StackTrace}");
             }
         }
+
+        [HttpPost("Update")]
+        public async Task<IActionResult> UpdateFolder(FolderEntity folder)
+        {
+            try
+            {
+                FolderEntity ent = await serv.UpdateFolder(folder);
+                return Ok(ent);
+            }
+            catch(Exception E)
+            {
+                return StatusCode(500, $"Update method failed for bookmark\n {E.StackTrace}");
+
+            }
+        }
     }
 }

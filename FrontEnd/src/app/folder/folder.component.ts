@@ -26,9 +26,18 @@ export class FolderComponent implements OnInit, OnChanges {
   ],
   Description: ["", [Validators.maxLength(200)]]
   });
+
+    /**
+  * FormGroup
+  */
+ EditFormGroup = this.form.group({
+  EditURL: [""],
+  EditDescription: [""]
+  });
+
   constructor(private form : FormBuilder, private serv : BookmarkService, private ref : ApplicationRef) {
   }
-  
+
   /**
    * Important variables below
    */
@@ -41,8 +50,10 @@ export class FolderComponent implements OnInit, OnChanges {
   get bookURL() {return this.BookmarkFormGroup.get('bookURL')};
   get Description() {return this.BookmarkFormGroup.get('Description')};
 
-  ngOnInit() {
+  get EditURL() {return this.EditFormGroup.get('EditURL')};
+  get EditDescription() {return this.EditDescription.get('EditDescription')};
 
+  ngOnInit() {
   }
 
   ngOnChanges(){
@@ -94,6 +105,12 @@ export class FolderComponent implements OnInit, OnChanges {
           this.RequestResponse = "Sorry, the request was not processed successfully."
         });
       });
+  }
+
+  EditSubmit(){
+    let prom = new Promise(async resolve => {
+      
+    });
   }
   
   Delete(bookmark : Bookmark){

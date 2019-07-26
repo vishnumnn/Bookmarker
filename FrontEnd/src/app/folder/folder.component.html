@@ -97,25 +97,17 @@
         </button>
       </div>
       <div class="modal-body">
-        <form [formGroup] = "BookmarkFormGroup" >
+        <form [formGroup] = "EditFormGroup" >
           <div>
-              <input type="text" formControlName = "bookURL" placeholder="Bookmark URL" required>
-              <p *ngIf = "bookURL.errors && (bookURL.touched || bookURL.dirty )" style="color: red">
-                Bookmark URL is required
-              </p>
+              <input type="text" formControlName = "EditURL" placeholder="New URL" required>
           </div>
-       
           <div>
-              <textarea #area formControlName = "Description" placeholder="Bookmark Description" maxlength="200" style="height:150px; width: 450px"></textarea>
+              <textarea #area formControlName = "EditDescription" placeholder="New Description" maxlength="200" style="height:150px; width: 450px"></textarea>
           </div>
         </form>
-        <p *ngIf = "RequestResponse != undefined">{{RequestResponse}}</p>
       </div>
       <div class="modal-footer">
-        <button #CancelButton type="button" class="btn btn-secondary" data-dismiss="modal" (click) = "BookmarkFormGroup.reset(); resetArea(area)">
-          Cancel
-        </button>
-        <button type="submit" class="btn btn-primary" [disabled]="BookmarkFormGroup.invalid" (click) = "OnSubmit()">Save changes</button>
+        <button type="submit" class="btn btn-primary" [disabled]="EditFormGroup.invalid" (click) = "EditSubmit()">Save changes</button>
       </div>
     </div>
   </div>

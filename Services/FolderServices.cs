@@ -40,5 +40,14 @@ namespace Services
             await cont.SaveChangesAsync();
             return book;
         }
+
+        public async Task<FolderEntity> UpdateFolder(FolderEntity ent)
+        {
+            FolderEntity folder = cont.Folders.Single(e => e.Id == ent.Id);
+            folder.Label = ent.Label;
+            folder.Description = ent.Description;
+            await cont.SaveChangesAsync();
+            return ent;
+        }
     }
 }
