@@ -5,7 +5,7 @@
         <p class="col-12">{{FolderData.Description}}</p>
         <button type="button" class="btn btn-success btn-sm " data-toggle="modal" [attr.data-target]="'#BookmarkModal' + FolderData.Id">Add Bookmark</button>
         <button type="button" class="btn btn-success btn-sm " data-toggle="modal" [attr.data-target]="'#EditModal' + FolderData.Id">Edit Folder</button>
-        <button type="button" class="btn btn-success btn-sm " data-toggle="modal" data-target="#DeleteModal">Delete Folder</button>
+        <button type="button" class="btn btn-success btn-sm " (click)="DeleteFolder()">Delete Folder</button>
     </div>
     <hr>
     <div class="row pt-1" *ngFor = "let b of FolderData.Bookmarks">

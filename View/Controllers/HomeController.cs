@@ -80,6 +80,21 @@ namespace View.Controllers
             }
         }
 
+        [HttpDelete("DeleteFolder/{id:int}")]
+        public async Task<IActionResult> DeleteFolder(int id)
+        {
+            try
+            {
+                FolderEntity[] res = await serv.DeleteFolder(id);
+                return Ok(res);
+            }
+            catch (Exception E)
+            {
+                return StatusCode(500, $"Delete method failed for Folder\n {E}");
+
+            }
+        }
+
         [HttpPost("Update")]
         public async Task<IActionResult> UpdateFolder(FolderEntity folder)
         {

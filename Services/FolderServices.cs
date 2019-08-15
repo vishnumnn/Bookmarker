@@ -49,5 +49,17 @@ namespace Services
             await cont.SaveChangesAsync();
             return ent;
         }
+
+        public async Task<FolderEntity[]> DeleteFolder(int id)
+        {
+            FolderEntity fold = cont.Folders.Single(e => e.Id == id);
+            if(fold.Bookmarks != null)
+                cont.Bookmarks.RemoveRange(fold.Bookmarks);
+            cont.Folders.Remove(fold);
+            cont.SaveChanges();
+            FolderEntity[] folders = cont.Folders.ToList().ToArray();
+            await cont.SaveChangesAsync();
+            return folders;
+        }
     }
 }

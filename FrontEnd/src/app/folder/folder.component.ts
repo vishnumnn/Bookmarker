@@ -1,4 +1,4 @@
-import { Component, OnInit,OnChanges, Input, ViewChild, ElementRef, ApplicationRef } from "@angular/core";
+import { Component, OnInit,OnChanges, Input, ViewChild, ElementRef, EventEmitter, Output } from "@angular/core";
 import { BookmarkService } from "../shared/bookmark.service";
 import { Folder } from '../shared/folder.model';
 import { Bookmark } from '../shared/bookmark.model';
@@ -35,6 +35,8 @@ export class FolderComponent implements OnInit, OnChanges {
   EditDescription: [""]
   });
 
+  @Output() public deleteEvent = new EventEmitter();
+
   constructor(private form : FormBuilder, private serv : BookmarkService) {
   }
 
@@ -44,6 +46,7 @@ export class FolderComponent implements OnInit, OnChanges {
   @Input() FolderData : Folder;
   @ViewChild('CancelButton', {static : false}) cancel : ElementRef<HTMLElement>;
   @ViewChild('CloseButton', {static : false}) close : ElementRef<HTMLElement>;
+ 
   IsBookmarkOpen : boolean = false;
   BookmarkHash : any = {};
   RequestResponse : string = undefined;
@@ -125,6 +128,14 @@ export class FolderComponent implements OnInit, OnChanges {
     )
   }
   
+  DeleteFolder(){
+    this.serv.DeleteFolder(this.FolderData.Id).subscribe(
+      (folders : Folder[]) => {
+        console.log(folders);
+        this.deleteEvent.emit(folders);
+        console.log(folders)
+      });
+  }
   Delete(bookmark : Bookmark){
     let prom = new Promise(async (resolve) => {
       let book = {
