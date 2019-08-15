@@ -13,6 +13,7 @@ export class BookmarkService {
   readonly URL : string = "https://localhost:44384/Home/Folders";
   readonly URL2 : string = "https://localhost:44384/Home/Bookmarks";
   readonly URL3 : string = "https://localhost:44384/Home/Delete";
+  readonly URL4 : string = "https://localhost:44384/Home/Update"; 
 
   constructor(private http: HttpClient) { 
     this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
@@ -47,5 +48,12 @@ export class BookmarkService {
   public DeleteBookmark(Bookmark : Bookmark) {
     console.log(`${this.URL3}/${Bookmark.Id}`);
     return this.http.delete(`${this.URL3}/${Bookmark.Id}`, {headers : this.headers});
+  }
+
+  /**
+   * UpdateBookmark
+   */
+  public UpdateFolder(folder : Folder){
+    return this.http.post<Folder>(this.URL4,folder);
   }
 }

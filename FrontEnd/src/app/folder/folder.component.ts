@@ -35,7 +35,7 @@ export class FolderComponent implements OnInit, OnChanges {
   EditDescription: [""]
   });
 
-  constructor(private form : FormBuilder, private serv : BookmarkService, private ref : ApplicationRef) {
+  constructor(private form : FormBuilder, private serv : BookmarkService) {
   }
 
   /**
@@ -43,6 +43,7 @@ export class FolderComponent implements OnInit, OnChanges {
    */
   @Input() FolderData : Folder;
   @ViewChild('CancelButton', {static : false}) cancel : ElementRef<HTMLElement>;
+  @ViewChild('CloseButton', {static : false}) close : ElementRef<HTMLElement>;
   IsBookmarkOpen : boolean = false;
   BookmarkHash : any = {};
   RequestResponse : string = undefined;
@@ -51,7 +52,7 @@ export class FolderComponent implements OnInit, OnChanges {
   get Description() {return this.BookmarkFormGroup.get('Description')};
 
   get EditURL() {return this.EditFormGroup.get('EditURL')};
-  get EditDescription() {return this.EditDescription.get('EditDescription')};
+  get EditDescription() {return this.EditFormGroup.get('EditDescription')};
 
   ngOnInit() {
   }
@@ -103,14 +104,25 @@ export class FolderComponent implements OnInit, OnChanges {
           console.log(e.message);
           console.log(e.error);
           this.RequestResponse = "Sorry, the request was not processed successfully."
+          this.cancel.nativeElement.click();
         });
       });
   }
 
   EditSubmit(){
-    let prom = new Promise(async resolve => {
-      
-    });
+    let folder = {
+      Id : this.FolderData.Id,
+      Label : this.EditURL.value,
+      Description : this.EditDescription.value
+    }
+    this.serv.UpdateFolder(folder as Folder).subscribe(
+      (Fold : Folder) => {
+        this.FolderData.Label = Fold.Label;
+        this.FolderData.Description = Fold.Description;
+        this.close.nativeElement.click();
+        console.log(`${this.FolderData.Id}  ${Fold.Id}`)
+      }
+    )
   }
   
   Delete(bookmark : Bookmark){
@@ -131,7 +143,6 @@ export class FolderComponent implements OnInit, OnChanges {
           this.FolderData.Bookmarks = this.FolderData.Bookmarks.filter(e => {
             return e.Id != res.Id;
           });
-          this.ref.tick();
         });
       });
 

@@ -90,7 +90,7 @@ namespace View.Controllers
             }
             catch(Exception E)
             {
-                return StatusCode(500, $"Update method failed for bookmark\n {E.StackTrace}");
+                return StatusCode(500, $"Update method failed for Folder\n {E}");
 
             }
         }

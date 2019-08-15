@@ -3,8 +3,8 @@
   <div class="" *ngIf = "IsBookmarkOpen">
     <div class="row pt-1 pb-1 justify-content-center">
         <p class="col-12">{{FolderData.Description}}</p>
-        <button type="button" class="btn btn-success btn-sm " data-toggle="modal" data-target="#BookmarkModal">Add Bookmark</button>
-        <button type="button" class="btn btn-success btn-sm " data-toggle="modal" data-target="#EditModal">Edit Folder</button>
+        <button type="button" class="btn btn-success btn-sm " data-toggle="modal" [attr.data-target]="'#BookmarkModal' + FolderData.Id">Add Bookmark</button>
+        <button type="button" class="btn btn-success btn-sm " data-toggle="modal" [attr.data-target]="'#EditModal' + FolderData.Id">Edit Folder</button>
         <button type="button" class="btn btn-success btn-sm " data-toggle="modal" data-target="#DeleteModal">Delete Folder</button>
     </div>
     <hr>
@@ -21,94 +21,95 @@
     </div>
     <hr>
   </div>
-</div>
-
-<!-- Modal -->
+  <!-- Modal -->
 <div
-  class="modal fade"
-  id="BookmarkModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="BookmarkModalTitle"
-  aria-hidden="true"
+class="modal fade"
+[attr.id]="'BookmarkModal' + FolderData.Id"
+tabindex="-1"
+role="dialog"
+aria-labelledby="BookmarkModalTitle"
+aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Add A Bookmark</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
+<div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLongTitle">Add A Bookmark</h5>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
 
-          (click) = "BookmarkFormGroup.reset(); resetArea(area)"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup] = "BookmarkFormGroup" >
-          <div>
-              <input type="text" formControlName = "bookURL" placeholder="Bookmark URL" required (onchange)="console.log(bookURL)">
-              <p *ngIf = "bookURL.errors && (bookURL.touched || bookURL.dirty )" style="color: red">
-                Bookmark URL is required
-              </p>
-          </div>
-       
-          <div>
-              <textarea #area formControlName = "Description" placeholder="Bookmark Description" maxlength="200" style="height:150px; width: 450px"></textarea>
-          </div>
-        </form>
-        <p *ngIf = "RequestResponse != undefined">{{RequestResponse}}</p>
-      </div>
-      <div class="modal-footer">
-        <button #CancelButton type="button" class="btn btn-secondary" data-dismiss="modal" (click) = "BookmarkFormGroup.reset(); resetArea(area)">
-          Cancel
-        </button>
-        <button type="submit" class="btn btn-primary" [disabled]="BookmarkFormGroup.invalid" (click) = "OnSubmit()">Save changes</button>
-      </div>
+        (click) = "BookmarkFormGroup.reset(); resetArea(area)"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup] = "BookmarkFormGroup" >
+        <div>
+            <input type="text" formControlName = "bookURL" placeholder="Bookmark URL" required (onchange)="console.log(bookURL)">
+            <p *ngIf = "bookURL.errors && (bookURL.touched || bookURL.dirty )" style="color: red">
+              Bookmark URL is required
+            </p>
+        </div>
+     
+        <div>
+            <textarea #area formControlName = "Description" placeholder="Bookmark Description" maxlength="200" style="height:150px; width: 450px"></textarea>
+        </div>
+      </form>
+      <p *ngIf = "RequestResponse != undefined">{{RequestResponse}}</p>
+    </div>
+    <div class="modal-footer">
+      <button #CancelButton type="button" class="btn btn-secondary" data-dismiss="modal" (click) = "BookmarkFormGroup.reset(); resetArea(area)">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="BookmarkFormGroup.invalid" (click) = "OnSubmit()">Save changes</button>
     </div>
   </div>
 </div>
+</div>
 
-<!-- Modal -->
+<!-- Edit Modal -->
 <div
-  class="modal fade"
-  id="EditModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="EditModalTitle"
-  aria-hidden="true"
+class="modal fade"
+[attr.id]="'EditModal' + FolderData.Id"
+tabindex="-1"
+role="dialog"
+aria-labelledby="EditModalTitle"
+aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Add A Bookmark</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
+<div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLongTitle">Edit Folder</h5>
+      <button
+        type="button"
+        #CloseButton
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
 
-          (click) = "BookmarkFormGroup.reset(); resetArea(area)"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup] = "EditFormGroup" >
-          <div>
-              <input type="text" formControlName = "EditURL" placeholder="New URL" required>
-          </div>
-          <div>
-              <textarea #area formControlName = "EditDescription" placeholder="New Description" maxlength="200" style="height:150px; width: 450px"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" [disabled]="EditFormGroup.invalid" (click) = "EditSubmit()">Save changes</button>
-      </div>
+        (click) = "EditFormGroup.reset(); resetArea(area)"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup] = "EditFormGroup" >
+        <div>
+            <input type="text" formControlName = "EditURL" placeholder="New URL" required>
+        </div>
+        <div>
+            <textarea #area formControlName = "EditDescription" placeholder="New Description" maxlength="200" style="height:150px; width: 450px"></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary" [disabled]="EditFormGroup.invalid" (click) = "EditSubmit()">Save changes</button>
     </div>
   </div>
 </div>
+</div>
+</div>
+
